@@ -18,10 +18,11 @@
     --nav-shadow: 0 2px 13.3px rgba(0, 60, 152, 0.25);
     --container: 1240px;
     --pad: 20px;
+    --nav-h: 72px;
   }
 
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; background-color: #ededed; }
   section[id] { scroll-margin-top: 90px; }
   body {
     margin: 0;
@@ -39,6 +40,7 @@
         rgba(0, 60, 152, 0) 1100px
       ),
       linear-gradient(180deg, #ededed 0%, #fdfdfd 30%, #f6f6f6 75%, #ededed 100%);
+    background-color: #ededed;
     overflow-x: hidden;
   }
   img { max-width: 100%; display: block; }
@@ -91,6 +93,7 @@
     top: 0;
     z-index: 50;
     padding: 16px var(--pad) 0;
+    box-shadow: 0 -100vh 0 100vh #ededed;
   }
   .nav-panel {
     max-width: var(--container);
@@ -218,14 +221,10 @@
   .mobile-menu {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 12px 16px 16px;
+    gap: 2px;
+    padding: 6px 16px 8px;
     background: var(--paper);
     border-radius: 0 0 8px 8px;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-8px);
@@ -243,6 +242,7 @@
     top: 0;
     left: 0;
     right: 0;
+    bottom: 0;
     border-radius: 8px;
     pointer-events: none;
     box-shadow: var(--nav-shadow);
@@ -253,7 +253,7 @@
     opacity: 1;
   }
   .mobile-menu a {
-    padding: 10px 14px;
+    padding: 6px 14px;
     border-radius: 8px;
     font-weight: 700;
     font-size: 14px;
@@ -267,14 +267,14 @@
     display: flex;
     align-items: center;
     gap: 24px;
-    padding: 6px 14px 0;
+    padding: 4px 14px 0;
   }
 
   /* ---------- Hero ---------- */
   .hero {
     padding: 48px var(--pad) 80px;
     overflow: visible;
-    min-height: calc(100vh - 72px);
+    min-height: calc(100vh - var(--nav-h));
     display: flex;
     align-items: center;
   }
@@ -650,6 +650,7 @@
     color: var(--paper);
     padding: 40px var(--pad);
     text-align: center;
+    box-shadow: 0 100vh 0 100vh var(--blue);
   }
   .footer-inner {
     max-width: var(--container);
@@ -1226,25 +1227,21 @@
   const menuToggle = document.getElementById('menuToggle');
   const mobileMenu = document.getElementById('mobileMenu');
   const navWrap = document.querySelector('.nav-wrap');
-  const navbarEl = document.querySelector('.navbar');
-  const navShadow = document.getElementById('navShadow');
-  function sizeNavShadow() {
-    navShadow.style.height = (navbarEl.offsetHeight + mobileMenu.offsetHeight) + 'px';
+  function updateNavOffset() {
+    document.documentElement.style.setProperty('--nav-h', navWrap.offsetHeight + 'px');
   }
+  updateNavOffset();
   menuToggle.addEventListener('click', () => {
     const open = mobileMenu.classList.toggle('open');
     menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     navWrap.classList.toggle('menu-open', open);
-    if (open) sizeNavShadow();
   });
   mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
     mobileMenu.classList.remove('open');
     menuToggle.setAttribute('aria-expanded', 'false');
     navWrap.classList.remove('menu-open');
   }));
-  window.addEventListener('resize', () => {
-    if (mobileMenu.classList.contains('open')) sizeNavShadow();
-  });
+  window.addEventListener('resize', updateNavOffset);
 
   // Testimonial carousel
   const slides = Array.from(document.querySelectorAll('.testi-content'));
