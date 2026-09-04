@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ededed" id="themeColorMeta">
 <title>Inkwell English</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1222,16 +1223,19 @@
     try { localStorage.setItem('inkwell-lang', lang); } catch (e) {}
   }
 
-  // iOS Safari rubber-band overscroll shows the <html> element's plain
-  // background-color (box-shadow "bleed" tricks are not respected there).
-  // Since that's a single color for the whole page, swap it to the footer's
-  // blue only while actually scrolled to the bottom, so the top overscroll
-  // keeps matching the pattern while the bottom overscroll matches the footer.
+  // Mobile Safari tints its own address-bar/toolbar chrome (the bars above
+  // and below the page) using <meta name="theme-color">, not the page's
+  // background — that's what was showing as a plain white/grey bar there.
+  // Keep it matching whichever real section is at that edge: the pattern's
+  // tone normally, the footer's blue once you've scrolled to the bottom.
   (function () {
     const root = document.documentElement;
+    const themeColorMeta = document.getElementById('themeColorMeta');
     function updateEdgeColor() {
       const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
-      root.style.backgroundColor = atBottom ? '#003c98' : '#ededed';
+      const color = atBottom ? '#003c98' : '#ededed';
+      root.style.backgroundColor = color;
+      if (themeColorMeta) themeColorMeta.setAttribute('content', color);
     }
     updateEdgeColor();
     window.addEventListener('scroll', updateEdgeColor, { passive: true });
