@@ -426,6 +426,8 @@
     padding: 20px;
   }
   .info-card .photo-placeholder { aspect-ratio: 190 / 249; border-radius: 8px; margin-bottom: 20px; }
+  .photo-placeholder.has-photo { background: none; padding: 0; overflow: hidden; }
+  .photo-placeholder.has-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; display: block; }
   .info-card h3 { color: var(--blue); font-size: 22px; margin-bottom: 2px; }
   .info-card .loc { font-style: italic; font-size: 15px; margin-bottom: 16px; }
   .info-card p.bio {
@@ -917,7 +919,7 @@
 
         <div class="team-right">
           <div class="info-card">
-            <div class="photo-placeholder" id="infoCardPhoto">photo of Alex Loeb</div>
+            <div class="photo-placeholder has-photo" id="infoCardPhoto"><img src="../alex-loeb.png" alt="Alex Loeb"></div>
             <h3 id="infoCardName">Alex Loeb</h3>
             <p class="loc" id="infoCardLoc">Bellingham, Washington</p>
             <p class="bio" id="infoCardBio">Alex has been teaching the English language for almost two decades. He is the creator of the Grammar-Perfect methodology, which has been highly successful in applying English learning techniques to real-world business topics.</p>
@@ -925,12 +927,12 @@
         </div>
 
         <div class="photo-grid">
-          <div class="photo-placeholder selected" data-i18n="team.photo_label">team photo</div>
-          <div class="photo-placeholder" data-i18n="team.photo_label">team photo</div>
-          <div class="photo-placeholder" data-i18n="team.photo_label">team photo</div>
-          <div class="photo-placeholder" data-i18n="team.photo_label">team photo</div>
-          <div class="photo-placeholder" data-i18n="team.photo_label">team photo</div>
-          <div class="photo-placeholder" data-i18n="team.photo_label">team photo</div>
+          <div class="photo-placeholder has-photo selected"><img src="../alex-loeb-thumb.png" alt="Alex Loeb"></div>
+          <div class="photo-placeholder has-photo"><img src="../michael-anderson-thumb.png" alt="Michael Anderson"></div>
+          <div class="photo-placeholder has-photo"><img src="../sarah-mitchell-thumb.png" alt="Sarah Mitchell"></div>
+          <div class="photo-placeholder has-photo"><img src="../david-reynolds-thumb.png" alt="David Reynolds"></div>
+          <div class="photo-placeholder has-photo"><img src="../jessica-carter-thumb.png" alt="Jessica Carter"></div>
+          <div class="photo-placeholder has-photo"><img src="../james-wilson-thumb.png" alt="James Wilson"></div>
         </div>
       </div>
     </section>
@@ -1195,6 +1197,7 @@
 
   let currentLang = 'pt';
   let currentTeamIndex = 0;
+  const ASSET_BASE = '../'; // becomes '../' on the /en/ page via the build repatch step
 
   function applyLanguage(lang) {
     if (lang !== 'pt' && lang !== 'en') lang = 'pt';
@@ -1325,6 +1328,7 @@
   const teamMembers = [
     {
       photoLabel: { pt: 'foto de Alex Loeb', en: 'photo of Alex Loeb' },
+      photo: 'alex-loeb.png',
       name: 'Alex Loeb',
       loc: 'Bellingham, Washington',
       bio: {
@@ -1334,6 +1338,7 @@
     },
     {
       photoLabel: { pt: 'foto de Michael Anderson', en: 'photo of Michael Anderson' },
+      photo: 'michael-anderson.png',
       name: 'Michael Anderson',
       loc: 'Seattle, Washington',
       bio: {
@@ -1343,6 +1348,7 @@
     },
     {
       photoLabel: { pt: 'foto de Sarah Mitchell', en: 'photo of Sarah Mitchell' },
+      photo: 'sarah-mitchell.png',
       name: 'Sarah Mitchell',
       loc: 'Boston, Massachusetts',
       bio: {
@@ -1352,6 +1358,7 @@
     },
     {
       photoLabel: { pt: 'foto de David Reynolds', en: 'photo of David Reynolds' },
+      photo: 'david-reynolds.png',
       name: 'David Reynolds',
       loc: 'Chicago, Illinois',
       bio: {
@@ -1361,6 +1368,7 @@
     },
     {
       photoLabel: { pt: 'foto de Jessica Carter', en: 'photo of Jessica Carter' },
+      photo: 'jessica-carter.png',
       name: 'Jessica Carter',
       loc: 'Austin, Texas',
       bio: {
@@ -1370,6 +1378,7 @@
     },
     {
       photoLabel: { pt: 'foto de James Wilson', en: 'photo of James Wilson' },
+      photo: 'james-wilson.png',
       name: 'James Wilson',
       loc: 'Denver, Colorado',
       bio: {
@@ -1392,7 +1401,17 @@
       loc: '',
       bio: { pt: 'Informações sobre este professor em breve.', en: 'More information about this teacher coming soon.' }
     };
-    infoCardPhoto.textContent = member.photoLabel[currentLang] || member.photoLabel.pt;
+    if (member.photo) {
+      infoCardPhoto.classList.add('has-photo');
+      infoCardPhoto.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = ASSET_BASE + member.photo;
+      img.alt = member.name;
+      infoCardPhoto.appendChild(img);
+    } else {
+      infoCardPhoto.classList.remove('has-photo');
+      infoCardPhoto.textContent = member.photoLabel[currentLang] || member.photoLabel.pt;
+    }
     infoCardName.textContent = member.name;
     infoCardLoc.textContent = member.loc;
     infoCardBio.textContent = member.bio[currentLang] || member.bio.pt;
