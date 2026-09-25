@@ -84,8 +84,8 @@
 
   .hero-flourish {
     display: block;
-    margin: 40px auto 0;
-    width: 158px;
+    margin: 32px -70px 0 auto;
+    width: 230px;
     height: auto;
     transform: rotate(-15deg);
     transform-origin: bottom right;
@@ -277,11 +277,11 @@
 
   /* ---------- Hero ---------- */
   .hero {
-    padding: 48px var(--pad) 80px;
+    padding: 64px var(--pad) 48px;
     overflow: visible;
-    min-height: calc(100vh - var(--nav-h));
-    display: flex;
-    align-items: center;
+    min-height: 0;
+    display: block;
+    justify-content: normal;
   }
   .hero-inner { max-width: var(--container); margin: 0 auto; position: relative; z-index: 1; width: 100%; }
   .hero h1 { font-size: 36px; line-height: 1.15; text-align: center; }
@@ -330,6 +330,8 @@
   .section-head h2 { font-size: 30px; line-height: 1.2; }
   .section-head p { font-size: 16px; line-height: 24px; margin: 16px auto 0; max-width: 720px; }
 
+  .services-lead { text-align: center; font-size: 16px; line-height: 24px; margin: 56px auto 16px; max-width: 720px; }
+
   .cards-row { display: flex; flex-direction: column; gap: 20px; }
   .card {
     background: var(--paper);
@@ -354,15 +356,18 @@
 
   .services .section-head h2,
   .services .section-head p,
+  .services .services-lead,
   .services .cards-row {
     opacity: 0;
     transform: translateY(-20px);
   }
   .services .section-head h2 { transition: opacity 200ms ease-in, transform 200ms ease-in; }
-  .services .section-head p { transition: opacity 200ms ease-in 100ms, transform 200ms ease-in 100ms; }
+  .services .section-head p,
+  .services .services-lead { transition: opacity 200ms ease-in 100ms, transform 200ms ease-in 100ms; }
   .services .cards-row { transition: opacity 200ms ease-in 200ms, transform 200ms ease-in 200ms; }
   .services.in-view .section-head h2,
   .services.in-view .section-head p,
+  .services.in-view .services-lead,
   .services.in-view .cards-row {
     opacity: 1;
     transform: translateY(0);
@@ -426,6 +431,7 @@
     padding: 20px;
   }
   .info-card .photo-placeholder { aspect-ratio: 190 / 249; border-radius: 8px; margin-bottom: 20px; }
+  .info-card .info-text { min-width: 0; }
   .photo-placeholder.has-photo { background: none; padding: 0; overflow: hidden; }
   .photo-placeholder.has-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; display: block; }
   .info-card h3 { color: var(--blue); font-size: 22px; margin-bottom: 2px; }
@@ -434,27 +440,16 @@
     font-size: 16px;
     line-height: 24px;
     margin: 0;
-    height: 144px;
-    display: -webkit-box;
-    -webkit-line-clamp: 6;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 
   .team .section-head h2,
-  .team .section-head p,
-  .team .photo-grid,
   .team .team-right {
     opacity: 0;
     transform: translateY(-20px);
   }
   .team .section-head h2 { transition: opacity 200ms ease-in, transform 200ms ease-in; }
-  .team .section-head p { transition: opacity 200ms ease-in 100ms, transform 200ms ease-in 100ms; }
-  .team .photo-grid,
   .team .team-right { transition: opacity 200ms ease-in 200ms, transform 200ms ease-in 200ms; }
   .team.in-view .section-head h2,
-  .team.in-view .section-head p,
-  .team.in-view .photo-grid,
   .team.in-view .team-right {
     opacity: 1;
     transform: translateY(0);
@@ -688,16 +683,17 @@
     .mobile-menu { display: none !important; }
 
     .hero { padding: 100px var(--pad); min-height: calc(100vh - var(--nav-h)); display: block; align-items: normal; box-sizing: border-box; }
-    .hero-inner { display: flex; flex-direction: column; align-items: flex-start; gap: 40px; width: 100%; }
+    .hero-inner { position: relative; inset: auto; display: flex; flex-direction: column; align-items: flex-start; gap: 40px; width: 100%; }
     .hero h1 { font-size: 56px; text-align: left; max-width: 800px; }
     .hero p.sub { font-size: 20px; line-height: 28px; text-align: left; max-width: 620px; margin-left: 0; }
     .cta-btn { width: auto; font-size: 20px; padding: 16px 29px; }
-    .hero-flourish { position: absolute; top: 0; right: 0; margin: 0; width: 317px; }
+    .hero-flourish { position: absolute; top: 0; right: 0; bottom: auto; margin: 0; width: 317px; }
 
     .services { padding: 60px var(--pad) 60px; }
     .services-inner { padding-bottom: 60px; }
     .section-head h2 { font-size: 44px; }
     .section-head p { font-size: 20px; line-height: 29px; max-width: 760px; }
+    .services-lead { font-size: 20px; line-height: 29px; max-width: 760px; margin: 64px auto 20px; }
     .cards-row { flex-direction: row; }
     .card p { font-size: 16px; line-height: 29px; }
     .also-offer {
@@ -715,20 +711,19 @@
 
     .team { padding: 0 var(--pad) 60px; }
     .team-inner {
-      display: grid;
-      grid-template-columns: 1fr 380px;
-      grid-template-areas: "head right" "grid right";
-      column-gap: 40px;
-      row-gap: 32px;
-      align-items: start;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      row-gap: 40px;
       padding-bottom: 60px;
       width: 100%;
     }
-    .team .section-head { grid-area: head; text-align: left; max-width: 620px; }
-    .team .section-head h2 { text-align: left; font-size: 44px; }
-    .team .section-head p { text-align: left; margin-left: 0; font-size: 20px; line-height: 29px; }
-    .photo-grid { grid-area: grid; max-width: 610px; }
-    .team-right { grid-area: right; max-width: 380px; }
+    .team .section-head { text-align: center; max-width: 700px; }
+    .team .section-head h2 { text-align: center; font-size: 44px; }
+    .team-right { width: 100%; max-width: 900px; }
+    .info-card { display: flex; align-items: center; gap: 40px; padding: 32px; }
+    .info-card .photo-placeholder { width: 300px; flex-shrink: 0; margin-bottom: 0; }
+    .info-card .info-text { flex: 1; }
 
     .clients { padding: 0 var(--pad) 60px; }
     .clients-inner { padding-bottom: 60px; flex-direction: row; align-items: flex-start; justify-content: space-between; gap: 40px; width: 100%; }
@@ -852,8 +847,27 @@
       <div class="services-inner">
         <div class="section-head">
           <h2 class="light" data-i18n-html="services.h2">We offer a<br><span class="bold accent">unique methodology</span></h2>
-          <p data-i18n-html="services.p">With the <strong>Grammar-Perfect©</strong> methodology, each new grammar topic reinforces and builds on the last, creating a solid, lasting foundation. First, we explain each grammar point clearly and logically; then, we apply that new knowledge in a real conversation focused on your professional activities.</p>
+          <p data-i18n="services.intro">Our classes don't follow textbooks like conventional English schools. You learn with real examples and topics that matter to you, taught by native speakers with years of experience teaching English for the professional world.</p>
         </div>
+
+        <p class="services-lead" data-i18n-html="services.p">With the <strong>Grammar-Perfect©</strong> methodology, each new grammar topic reinforces and builds on the last, creating a solid, lasting foundation.</p>
+
+        <div class="cards-row">
+          <div class="card">
+            <h3 data-i18n="services.step1.title">1. Clarity</h3>
+            <p data-i18n="services.step1.body">We explain each grammar point clearly and logically, without unnecessary complications, so you understand the reasoning behind each rule, not just memorize it.</p>
+          </div>
+          <div class="card">
+            <h3 data-i18n="services.step2.title">2. Practice</h3>
+            <p data-i18n="services.step2.body">Next, we apply that new knowledge in a real conversation focused on your professional activities, so theory becomes practice from the very first class.</p>
+          </div>
+          <div class="card">
+            <h3 data-i18n="services.step3.title">3. Confidence</h3>
+            <p data-i18n="services.step3.body">The result is English that flows naturally: you communicate with more confidence and fluency in any professional situation, without freezing up or translating in your head.</p>
+          </div>
+        </div>
+
+        <p class="services-lead" data-i18n="services.classes_lead">With content built around your context, each package adapts to your goals, creating a learning experience made just for you.</p>
 
         <div class="cards-row">
           <div class="card">
@@ -913,26 +927,18 @@
     <section class="team" id="sobre">
       <div class="team-inner">
         <div class="section-head">
-          <h2 class="light" data-i18n-html="team.h2">Meet teachers who connect you to the <span class="bold accent">global market</span></h2>
-          <p data-i18n="team.p">Our team is made up of native English speakers living in Brazil. They're ready to help you communicate naturally and confidently in any meeting room in the world.</p>
+          <h2 class="light" data-i18n-html="team.h2">Alex leads the team that connects you to the <span class="bold accent">global market</span></h2>
         </div>
 
         <div class="team-right">
           <div class="info-card">
             <div class="photo-placeholder has-photo" id="infoCardPhoto"><img src="../images/alex-loeb.png" alt="Alex Loeb"></div>
-            <h3 id="infoCardName">Alex Loeb</h3>
-            <p class="loc" id="infoCardLoc">Bellingham, Washington</p>
-            <p class="bio" id="infoCardBio">Alex has been teaching the English language for almost two decades. He is the creator of the Grammar-Perfect methodology, which has been highly successful in applying English learning techniques to real-world business topics.</p>
+            <div class="info-text">
+              <h3 id="infoCardName">Alex Loeb</h3>
+              <p class="loc" id="infoCardLoc">Bellingham, Washington</p>
+              <p class="bio" id="infoCardBio">With two decades of experience teaching English, Alex knew the conventional approach wasn't enough. That restlessness led him to develop the Grammar-Perfect methodology and found Inkwell English, where he now leads a small team of dedicated native-speaking teachers, all living in Brazil, ready to help you communicate naturally and confidently in any meeting room in the world.</p>
+            </div>
           </div>
-        </div>
-
-        <div class="photo-grid">
-          <div class="photo-placeholder has-photo selected"><img src="../images/alex-loeb-thumb.png" alt="Alex Loeb"></div>
-          <div class="photo-placeholder has-photo"><img src="../images/michael-anderson-thumb.png" alt="Michael Anderson"></div>
-          <div class="photo-placeholder has-photo"><img src="../images/sarah-mitchell-thumb.png" alt="Sarah Mitchell"></div>
-          <div class="photo-placeholder has-photo"><img src="../images/david-reynolds-thumb.png" alt="David Reynolds"></div>
-          <div class="photo-placeholder has-photo"><img src="../images/jessica-carter-thumb.png" alt="Jessica Carter"></div>
-          <div class="photo-placeholder has-photo"><img src="../images/james-wilson-thumb.png" alt="James Wilson"></div>
         </div>
       </div>
     </section>
@@ -1085,8 +1091,16 @@
       'hero.sub': 'Nossa equipe é formada por um seleto grupo de falantes nativos com experiência profissional e qualificações internacionais.',
       'hero.cta': 'Entre em Contato',
 
-      'services.h2': 'Oferecemos uma<br><span class="bold accent">metodologia differenciada</span>',
-      'services.p': 'Com a metodologia <strong>Grammar-Perfect©</strong>, cada novo tópico gramatical reforça e expande o anterior, construindo uma base sólida e duradoura. Primeiro, explicamos cada ponto de gramática de forma clara e lógica; depois, aplicamos esse novo conhecimento em uma conversa real, focada nas suas atividades profissionais.',
+      'services.h2': 'Oferecemos uma<br><span class="bold accent">metodologia diferenciada</span>',
+      'services.intro': 'Nossas aulas não seguem livros didáticos como as escolas de inglês convencionais. Você aprende com exemplos reais e temas que fazem sentido para você, em aulas ministradas por professores nativos com anos de experiência no ensino de inglês para o mercado de trabalho.',
+      'services.p': 'Com a metodologia <strong>Grammar-Perfect©</strong>, cada novo tópico gramatical reforça e expande o anterior, construindo uma base sólida e duradoura.',
+      'services.step1.title': '1. Clareza',
+      'services.step1.body': 'Explicamos cada ponto de gramática de forma clara e lógica, sem complicações desnecessárias, para que você entenda o porquê por trás de cada regra, não apenas decore.',
+      'services.step2.title': '2. Prática',
+      'services.step2.body': 'Em seguida, aplicamos esse novo conhecimento em uma conversa real, focada nas suas atividades profissionais, para que a teoria vire prática desde a primeira aula.',
+      'services.step3.title': '3. Confiança',
+      'services.step3.body': 'O resultado é um inglês que flui naturalmente: você se comunica com mais confiança e fluência em qualquer situação profissional, sem travar ou traduzir na cabeça.',
+      'services.classes_lead': 'Com conteúdo pensado para o seu contexto, cada pacote se adapta aos seus objetivos, criando uma experiência de aprendizado sob medida.',
       'services.card1.title': 'Aulas para Empresas',
       'services.card1.body': 'Capacitamos sua equipe em inglês profissional, com aulas individuais ou em pequenos grupos. O formato é definido conforme as necessidades do seu time e do seu setor, para que seus colaboradores pratiquem inglês em situações reais do dia a dia da empresa.',
       'services.card2.title': 'Aulas para Indivíduos',
@@ -1096,8 +1110,7 @@
       'services.also2': 'Tradução',
       'services.also3': 'Preparação para Entrevistas',
 
-      'team.h2': 'Conheça professores que te conectam ao <span class="bold accent">mercado global</span>',
-      'team.p': 'Nossa equipe é formada por falantes nativos de inglês que vivem no Brasil. Eles estão prontos para ajudar você a se comunicar com naturalidade e confiança em qualquer sala de reunião do mundo.',
+      'team.h2': 'Alex lidera a equipe que te conecta ao <span class="bold accent">mercado global</span>',
       'team.photo_label': 'foto da equipe',
 
       'clients.h2': 'Trabalhamos com equipes de<br><span class="bold accent">empresas renomadas</span>',
@@ -1146,7 +1159,15 @@
       'hero.cta': 'Get in Touch',
 
       'services.h2': 'We offer a<br><span class="bold accent">unique methodology</span>',
-      'services.p': 'With the <strong>Grammar-Perfect©</strong> methodology, each new grammar topic reinforces and builds on the last, creating a solid, lasting foundation. First, we explain each grammar point clearly and logically; then, we apply that new knowledge in a real conversation focused on your professional activities.',
+      'services.intro': "Our classes don't follow textbooks like conventional English schools. You learn with real examples and topics that matter to you, taught by native speakers with years of experience teaching English for the professional world.",
+      'services.p': 'With the <strong>Grammar-Perfect©</strong> methodology, each new grammar topic reinforces and builds on the last, creating a solid, lasting foundation.',
+      'services.step1.title': '1. Clarity',
+      'services.step1.body': "We explain each grammar point clearly and logically, without unnecessary complications, so you understand the reasoning behind each rule, not just memorize it.",
+      'services.step2.title': '2. Practice',
+      'services.step2.body': 'Next, we apply that new knowledge in a real conversation focused on your professional activities, so theory becomes practice from the very first class.',
+      'services.step3.title': '3. Confidence',
+      'services.step3.body': 'The result is English that flows naturally: you communicate with more confidence and fluency in any professional situation, without freezing up or translating in your head.',
+      'services.classes_lead': 'With content built around your context, each package adapts to your goals, creating a learning experience made just for you.',
       'services.card1.title': 'Corporate Classes',
       'services.card1.body': "We train your team in professional English through individual or small-group classes. The format is tailored to your team's needs and industry, so your employees practice English in real situations from their everyday work.",
       'services.card2.title': 'Individual Classes',
@@ -1156,8 +1177,7 @@
       'services.also2': 'Translation',
       'services.also3': 'Interview Preparation',
 
-      'team.h2': 'Meet teachers who connect you to the <span class="bold accent">global market</span>',
-      'team.p': "Our team is made up of native English speakers living in Brazil. They're ready to help you communicate naturally and confidently in any meeting room in the world.",
+      'team.h2': 'Alex leads the team that connects you to the <span class="bold accent">global market</span>',
       'team.photo_label': 'team photo',
 
       'clients.h2': 'We work with teams from<br><span class="bold accent">renowned companies</span>',
@@ -1332,8 +1352,8 @@
       name: 'Alex Loeb',
       loc: 'Bellingham, Washington',
       bio: {
-        pt: 'Alex atua no ensino de língua inglesa há quase duas décadas. Criador da metodologia Grammar-Perfect, obteve grande sucesso ao aplicar técnicas de aprendizagem de inglês a tópicos de negócios do mundo real.',
-        en: 'Alex has been teaching the English language for almost two decades. He is the creator of the Grammar-Perfect methodology, which has been highly successful in applying English learning techniques to real-world business topics.'
+        pt: 'Com duas décadas de experiência no ensino de inglês, Alex sabia que a abordagem convencional não era suficiente. Foi essa inquietação que o levou a desenvolver a metodologia Grammar-Perfect e fundar a Inkwell English, onde hoje lidera uma pequena equipe de professores nativos dedicados, todos vivendo no Brasil — prontos para ajudar você a se comunicar com naturalidade e confiança em qualquer sala de reunião do mundo.',
+        en: "With two decades of experience teaching English, Alex knew the conventional approach wasn't enough. That restlessness led him to develop the Grammar-Perfect methodology and found Inkwell English, where he now leads a small team of dedicated native-speaking teachers, all living in Brazil, ready to help you communicate naturally and confidently in any meeting room in the world."
       }
     },
     {
@@ -1444,7 +1464,7 @@
   }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
   spySections.forEach(s => spyObserver.observe(s));
 
-  // This page is permanently English — Portuguese lives at the root URL (/)
+  // This page is permanently Portuguese — English lives at its own URL (/en/)
   // for SEO, linked via the PT/EN buttons above rather than a JS toggle.
   applyLanguage('en');
 </script>
